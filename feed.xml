@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Doyeon&#39;s Blog</title>
+  <subtitle>Doyeon&#39;s Blog</subtitle>
+  <link href="/feed.xml" rel="self"/>
+  
+  <link href="https://doyeonOh.github.io/"/>
+  <updated>2017-03-13T01:59:15.383Z</updated>
+  <id>https://doyeonOh.github.io/</id>
+  
+  <author>
+    <name>Doyeon Oh</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Angular2 Routing (1)</title>
+    <link href="https://doyeonOh.github.io/2016/12/10/Angular2-Routing/"/>
+    <id>https://doyeonOh.github.io/2016/12/10/Angular2-Routing/</id>
+    <published>2016-12-10T06:00:00.000Z</published>
+    <updated>2017-03-13T01:59:15.383Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Angular2-Routing"><a href="#Angular2-Routing" class="headerlink" title="Angular2 Routing"></a>Angular2 Routing</h1><h4 id="1-Routing"><a href="#1-Routing" class="headerlink" title="1. Routing ?"></a>1. Routing ?</h4><p>일단 라우팅에 대해서 알아보자.</p>
+<p>일반적으로 웹 개발에서, 라우팅은 어플리케이션의 서로 다른 영역들을 구분하는 것을 의미한다.</p>
+<p>모두 알다시피 / 경로로 방문하면 어플리케이션의 홈 라우트를 방문하길 원할 것이고, /about 페이지로 방문하면 about page 로 렌더링하기 원할 것이다.</p>
+<p>그렇다면 왜 라우팅을 해야하는지 알아보자면 </p>
+<ul>
+<li>app 안에서 서로 다른 영역을 구분 할 수 있다.</li>
+<li>app 안에서 상태를 유지한다.</li>
+<li>특정 룰에 기반한 app 의 영역을 보호한다.</li>
+</ul>
+<p>정도가 될 수 있겠다.</p>
+<h4 id="2-Angular2-의-Routing-Component"><a href="#2-Angular2-의-Routing-Component" class="headerlink" title="2. Angular2 의 Routing Component"></a>2. Angular2 의 Routing Component</h4><p>Angular2 에서 라우팅 설정에 사용되는 메인 컴포넌트 3개가 있다.</p>
+<ul>
+<li><code>Routes</code> 는 어플리케이션이 지원하는 라우트를 표현한다.</li>
+<li><code>RouterOutlet</code> 은 확장된 각 라우트의 컨텐트를 얻을 수 있다.</li>
+<li><code>RouteLink</code> directive 는 어플리케이션 내의 다른 라우트로 링크하기 위해 사용된다.</li>
+</ul>
+<p>위의 설명만 들으면 뭔소린지 모를 것이다. 다음을 계속 보자.</p>
+<p>그 전에 일단 Angular2 의 router 사용하려면 <code>@angular/router</code> 패키지로부터 다음과 같이 import 해야 한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import &#123;</div><div class="line">	RouterModule,</div><div class="line">    Routes</div><div class="line">&#125; from &apos;@angular/router&apos;;</div></pre></td></tr></table></figure>
+<h5 id="2-1-Routes"><a href="#2-1-Routes" class="headerlink" title="2-1. Routes"></a>2-1. Routes</h5><p>어플리케이션의 라우트를 정의하려면 이놈이 필요하다. 이놈 즉, <code>Routes</code> 설정을 생성하고 우리 어플리케이션에 적용하기 위해 <code>router</code> 를 사용하는데 필요한 의존들과 함께 <code>RouterModule.forRoot(routes)</code> 사용해야 한다.</p>
+<p>뭔 소린지 모르니 다음 코드를 보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const routes: Routes = [</div><div class="line">    &#123; path: &apos;&apos;, redirectTo: home&apos;, pathMatch: &apos;full&apos; &#125;,</div><div class="line">    &#123; path: &apos;home&apos;, component: HomeComponent &#125;,</div><div class="line">    &#123; path: &apos;about&apos;, component: AboutComponent &#125;,</div><div class="line">    &#123; path: &apos;contact&apos;, component: ContactComponent &#125;,</div><div class="line">    &#123; path: &apos;contactus&apos;, redirectTo: &apos;contact&apos; &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
+<p><code>routes</code> 에 대한 설명을 하자면</p>
+<ul>
+<li><code>path</code> 는 이 라우트가 처리할 URL 을 지정한다.</li>
+<li><code>component</code> 는 path 에 따라 처리되어질 연결된 컴포넌트를 의미한다.</li>
+<li><code>redirectTo</code> 는 필수는 아니지만 어플리케이션 내부에 존재하는 라우트 경로로 리다이렉트 할 때 사용된다.</li>
+<li>그 외에도 등등 이 있으니 공식 문서 참고.</li>
+</ul>
+<p>자 이 routes 를 만들었으니 어플리케이션에 적용을 해야한다.</p>
+<p><code>Routes</code> 를 적용하자</p>
+<ol>
+<li><code>RouterModule</code> 을 import 한다.</li>
+<li><code>NgModule</code> 의 imports 안에 <code>RouterModule.forRoot(routes)</code> 를 사용하여 routes 를 적용한다.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">import &#123;</div><div class="line">	RouterModule,</div><div class="line">    Routes</div><div class="line">&#125; from &apos;@angular/router&apos;;</div><div class="line">...</div><div class="line"></div><div class="line">const routes: Routes = [</div><div class="line">    &#123; path: &apos;&apos;, redirectTo: &apos;home&apos;, pathMatch: &apos;full&apos; &#125;,</div><div class="line">    &#123; path: &apos;home&apos;, component: HomeComponent &#125;,</div><div class="line">    &#123; path: &apos;about&apos;, component: AboutComponent &#125;,</div><div class="line">    &#123; path: &apos;contact&apos;, component: ContactComponent &#125;,</div><div class="line">    &#123; path: &apos;contactus&apos;, redirectTo: &apos;contact&apos; &#125;</div><div class="line">];</div><div class="line"></div><div class="line">@NgModule(&#123;</div><div class="line">  declarations: [</div><div class="line">    RoutesDemoApp,</div><div class="line">    HomeComponent,</div><div class="line">    AboutComponent,</div><div class="line">    ContactComponent</div><div class="line">  ],</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    RouterModule.forRoot(routes) // &lt;-- 적용</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppModule ]</div><div class="line">&#125;)</div><div class="line">class RoutesAppModule &#123;&#125;</div><div class="line"></div><div class="line">platformBrowserDynamic().bootstrapModule(RoutesAppModule)</div><div class="line">.catch((err: any) =&gt; console.error(err));</div></pre></td></tr></table></figure>
+<h5 id="2-2-RouterOutlet"><a href="#2-2-RouterOutlet" class="headerlink" title="2-2. RouterOutlet"></a>2-2. RouterOutlet</h5><p>라우트를 변경할 때 외부 layout 은 냅두고 내부만 바꾸고 싶을 때가 있다. 그럴 때 사용하는 것이 RouterOutlet 이다.</p>
+<p>이미 <code>NgModule</code> 에서 <code>RouterModule</code> 을 import 했기 때문에 해당 모듈에 Declarations 된 모든 component 들은 해당 모듈에 포함된 RouterOutlet 을 사용 할 수 있다. </p>
+<p>사용 할 때는 해당 component 에 연결된 template 에서 <code>router-outlet</code> 디렉티브를 사용한다. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  selector: &apos;router-app&apos;,</div><div class="line">  template: `</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;nav&gt;</div><div class="line">        &lt;a&gt;Navigation:&lt;/a&gt;</div><div class="line">          &lt;ul&gt;</div><div class="line">            &lt;li&gt;&lt;a [routerLink]=&quot;[&apos;home&apos;]&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;a [routerLink]=&quot;[&apos;about&apos;]&quot;&gt;About&lt;/a&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;a [routerLink]=&quot;[&apos;contact&apos;]&quot;&gt;Contact     us&lt;/a&gt;&lt;/li&gt;</div><div class="line">         &lt;/ul&gt;</div><div class="line">      &lt;/nav&gt;</div><div class="line">      &lt;router-outlet&gt;&lt;/router-outlet&gt;  &lt;-- 이것이 router-outlet!!!</div><div class="line">    &lt;/div&gt;</div><div class="line">`</div><div class="line">&#125;)</div><div class="line">class RoutesApp &#123; &#125;</div></pre></td></tr></table></figure>
+<p>routerLink 는 바로 다음에 설명하겠지만, </p>
+<p>위의 코드에서 home, about, contact 앵커 태그를 클릭하면 하단 <code>router-outlet</code> 에 해당 라우트가 연결된 component 로 전환 될 것이다.</p>
+<h5 id="2-3-RouterLink"><a href="#2-3-RouterLink" class="headerlink" title="2-3. RouterLink"></a>2-3. RouterLink</h5><p><code>RouterLink</code> 는 <code>[routerLink]</code> 를 사용한다.(위에 코드에 보이시죠?)</p>
+<p>근데 왜 이걸 써야 할까? 알다시피 다음과 같이 직접적으로 HTML에 링크를 시도할 수 있지 않은가?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;/#/home&quot;&gt;Home&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>이렇게 하면 큰일 난다. 아니 큰일은 나지 않지만, 링크를 클릭하면 페이지가 새로고침된다. </p>
+<p>우린 SPA 프로그래밍을 하는데 페이지가 새로고침이 되면 SPA 프로그래밍이 아니다.(Single Page Application)</p>
+<p>Angular2 에서 이 문제를 해결한 것이 <code>RouterLink</code> 이다. 이것을 사용하면 페이지 새로고침 없이 해당 라우트로 링크 할 수 있다. </p>
+<p>위에도 나와 있지만 이 directive 는 다음과 같이 특별한 문법으로 link 를 작성 할 수 있다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;a&gt;Navigation:&lt;/a&gt;</div><div class="line"> &lt;ul&gt;</div><div class="line">   &lt;li&gt;&lt;a [routerLink]=&quot;[&apos;home&apos;]&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;</div><div class="line">   &lt;li&gt;&lt;a [routerLink]=&quot;[&apos;about&apos;]&quot;&gt;About&lt;/a&gt;&lt;/li&gt;</div><div class="line">   &lt;li&gt;&lt;a [routerLink]=&quot;[&apos;contact&apos;]&quot;&gt;Contact us&lt;/a&gt;&lt;/li&gt;</div><div class="line"> &lt;/ul&gt;</div></pre></td></tr></table></figure>
+<p>왼쪽 편에 <code>[routerLink]</code> 는 현재 엘리먼트에 directive 를 적용한다. (여기서는 a 태그)</p>
+<p>그리고 오른편에는 route 경로를 가지고 있는 배열이 있다. 생각하는 바와 같이 클릭하면 해당 home, about, contact 라우트로 이동 한다.</p>
+<p>배열에 문자열만 턱하니 있으니 뭔가 이상해 보일 수도 있겠지만, 링크 할 때 제공 할 수 있는 것들이 더 많기 때문에 배열로 이루어져 있는 것이다. 더 제공 할 수 있는 것에 대해서는 공식 문서를 참조하자.</p>
+<h4 id="3-lt-base-href-quot-quot-gt-와-APP-BASE-HREF"><a href="#3-lt-base-href-quot-quot-gt-와-APP-BASE-HREF" class="headerlink" title="3. &lt;base href=&quot;/&quot;&gt; 와 APP_BASE_HREF"></a>3. <code>&lt;base href=&quot;/&quot;&gt;</code> 와 <code>APP_BASE_HREF</code></h4><h5 id="3-1-lt-base-href-quot-quot-gt"><a href="#3-1-lt-base-href-quot-quot-gt" class="headerlink" title="3-1. &lt;base href=&quot;/&quot;&gt;"></a>3-1. <code>&lt;base href=&quot;/&quot;&gt;</code></h5><p>다음 코드 <code>index.html</code> 파일을 보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!doctype html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;base href=&quot;/&quot;&gt;  &lt;---------- 여기!!!!!!</div><div class="line">    &lt;title&gt;ng-book 2: Angular 2 Router&lt;/title&gt;</div><div class="line">    &#123;% for (var css in o.htmlWebpackPlugin.files.css) &#123; %&#125;</div><div class="line">      &lt;link href=&quot;&#123;%=o.htmlWebpackPlugin.files.css[css] %&#125;&quot; rel=&quot;stylesheet&quot;&gt;</div><div class="line">    &#123;% &#125; %&#125;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;router-app&gt;&lt;/router-app&gt;</div><div class="line">    &lt;script src=&quot;/core.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;/vendor.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;/bundle.js&quot;&gt;&lt;/script&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>위의 <code>&lt;base href=&quot;/&quot;&gt;</code> 만 빼면 그냥 알 수 있는 코드이다.</p>
+<p>이 태그는 전통적으로 브라우저에게 어딜 봐야 하는지 알려주기 위해 사용된다.</p>
+<p>예를 들어, <code>/hello</code> 라는 라우트 경로를 가지고 있고, <code>base</code> 엘리먼트에 <code>href=&quot;app&quot;</code> 이라고 선언되었다면 어플리케이션은 해당 경로를 <code>/app/hello</code> 로  가리킬 것이다.</p>
+<p>다음 코드는 그 예제이다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const routes: Routes = [</div><div class="line">    &#123; path: &apos;app&apos;, component: AppComponent &#125;</div><div class="line">  ];</div><div class="line"></div><div class="line"></div><div class="line">@NgModule(&#123;</div><div class="line">  declarations: [</div><div class="line">    AppComponent</div><div class="line">  ],</div><div class="line">  imports: [</div><div class="line">    RouterModule.forRoot(routes)</div><div class="line">  ],</div><div class="line">  ...</div><div class="line">&#125;)</div><div class="line">export class AppModule &#123; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!doctype html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">  &lt;base href=&quot;/app&quot;&gt;</div><div class="line">    ...</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    ...</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>base 태그가 /app 로 되있기 때문에 routes 경로도 app 으로 지정해주어야 한다.</p>
+<h5 id="3-2-APP-BASE-HREF"><a href="#3-2-APP-BASE-HREF" class="headerlink" title="3-2. APP_BASE_HREF"></a>3-2. <code>APP_BASE_HREF</code></h5><p><code>&lt;base href=&quot;/&quot;&gt;</code> 를 코드 안에도 넣을 수 있다. </p>
+<p>그것은 바로 <code>NgModule</code> 의 <code>APP_BASE_HREF</code> 를 제공하면 된다!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@NgModule(&#123;</div><div class="line">  declarations: [ RoutesDemoApp ],</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    RouterModule.forRoot(routes) // &lt;-- routes</div><div class="line">  ],</div><div class="line">  bootstrap: [ RoutesDemoApp ],</div><div class="line">  providers: [</div><div class="line">    &#123; provide: LocationStrategy, useClass:   HashLocationStrategy &#125;,</div><div class="line">    &#123; provide: APP_BASE_HREF, useValue: &apos;/&apos; &#125; // &lt;--- 여기</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>provider 에 있는  <code>{ proivde: APP_BASE_HREF, useValue: &#39;/&#39; }</code> 는 방금 말했듯이 HTML 헤더에 있던 <code>&lt;base href=&quot;/&quot;&gt;</code> 와 동일 하다.</p>
+<p>Angular2 router 를 사용하려면 둘 중에 하나를 명시해주어야 한다.</p>
+<h4 id="4-Routing-Strategy"><a href="#4-Routing-Strategy" class="headerlink" title="4. Routing Strategy"></a>4. Routing Strategy</h4><p>Angular2 의 라우팅 전략은 여러 가지가 있다. 그 중에 기본 전략으로 지정 된 것은 <code>PathLocationStrategy</code> 이다. 이것은 HTML5 routing 이라고도 불리는 데, 이 전략을 사용하는 동안 라우트들은 regular path 들을 표현한다. </p>
+<p>이 전략은 <code>LocationStrategy</code> 클래스를 바인딩 하여 어플리케이션의 라우팅 전략을 변경 할 수 있다.</p>
+<p>기본적으로 사용되는 <code>PathLocationStrategy</code> 를 대신하여 <code>HashLocationStrategy</code> 를 사용 할 수 있다.</p>
+<p>이 전략은 쉽게 말하면 hash(#) 기반 전략이다. 즉 <code>PathLocationStrategy</code> 에서 사용되던 <code>/hello</code> 라는 라우트가 <code>HashLocationStrategy</code> 에서는 <code>/#/hello</code> 로 표현된다. </p>
+<p>HTML5 Routing 을 사용하는 경우, 보통 경로들과 다르지 않기 때문에 구분을 주고자 한다면 사용하는 것을 추천한다.</p>
+<p>이제 새로운 전략을 한번 사용해보자.</p>
+<p>일단 <code>LocationStrategy</code> 와 <code>HashLocationStrategy</code> 를 import 해야 한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import &#123; LocationStrategy, HashLocationStrategy &#125; from &apos;@angular/common&apos;;</div></pre></td></tr></table></figure>
+<p>해당 클래스 들은 <code>@angular/common</code> 패키지에 존재한다.</p>
+<p>이제 이 클래스들을 <code>NgModule</code> 에 작성하자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">providers: [</div><div class="line">   	&#123; provide: LocationStrategy, useClass: HashLocationStrategy &#125;</div><div class="line">   ]</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>이렇게 하면 적용된다. 그외 전략은 공식 문서를 참고하자..</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Angular2-Routing&quot;&gt;&lt;a href=&quot;#Angular2-Routing&quot; class=&quot;headerlink&quot; title=&quot;Angular2 Routing&quot;&gt;&lt;/a&gt;Angular2 Routing&lt;/h1&gt;&lt;h4 id=&quot;1-Routing
+    
+    </summary>
+    
+      <category term="angular2" scheme="https://doyeonOh.github.io/categories/angular2/"/>
+    
+    
+      <category term="angular2" scheme="https://doyeonOh.github.io/tags/angular2/"/>
+    
+      <category term="routing" scheme="https://doyeonOh.github.io/tags/routing/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>helloworld</title>
+    <link href="https://doyeonOh.github.io/2016/09/12/helloworld/"/>
+    <id>https://doyeonOh.github.io/2016/09/12/helloworld/</id>
+    <published>2016-09-12T03:09:00.000Z</published>
+    <updated>2016-12-15T01:28:56.308Z</updated>
+    
+    <content type="html"><![CDATA[<p>sample test 입니다.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;sample test 입니다.&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
