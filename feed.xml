@@ -5,7 +5,7 @@
   <link href="/feed.xml" rel="self"/>
   
   <link href="https://doyeonOh.github.io/"/>
-  <updated>2017-03-13T02:45:05.934Z</updated>
+  <updated>2017-03-14T10:37:14.448Z</updated>
   <id>https://doyeonOh.github.io/</id>
   
   <author>
@@ -16,16 +16,86 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Angular2 Routing(2)</title>
+    <link href="https://doyeonOh.github.io/2017/03/13/Angular2-Routing-2/"/>
+    <id>https://doyeonOh.github.io/2017/03/13/Angular2-Routing-2/</id>
+    <published>2017-03-13T01:59:00.000Z</published>
+    <updated>2017-03-14T10:37:14.448Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="5-Route-Parameter"><a href="#5-Route-Parameter" class="headerlink" title="5. Route Parameter"></a>5. Route Parameter</h4><p>특정 리소스에 대해 라우팅 하고 싶을 때가 있다. 예를 들어, 뉴스 기사 사이트에는 많은 기사들이 있는데 각 기사들은 id 를 가지고 있다. </p>
+<p>id 가 3인 url 을 표현하면 다음과 같다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/articles/<span class="number">3</span></div></pre></td></tr></table></figure>
+<p>그리고 id 가 4인 것은 다음과 같다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/articles/<span class="number">4</span></div></pre></td></tr></table></figure>
+<p>하지만 이렇게 많은 것들을 매번 하나하나 라우팅 할 순 없다. 이것을 변수를 사용하여 이용 할 수가 있다.</p>
+<p>즉 이것이 라우트 파라메터인데 라우트가 파라메터를 가지게 하려면 다음과 같이 앞에 콜론을 붙여주면 된다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/routes/:param</div></pre></td></tr></table></figure>
+<p>위의 뉴스 기사를 라우트 파라메터로 표현하면 다음과 같이 된다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/articles/:id</div></pre></td></tr></table></figure>
+<p><code>Routes</code> 설정에 추가해보면 다음과 같다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">    &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'search'</span>, pathMatch: <span class="string">'full'</span> &#125;,</div><div class="line">    &#123; path: <span class="string">'search'</span>, component: SearchComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'artists/:id'</span>, component: ArtistComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'tracks/:id'</span>, component: TrackComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'albums/:id'</span>, component: AlbumComponent &#125;,</div><div class="line">];</div></pre></td></tr></table></figure>
+<p><code>artists/123</code> 으로 방문 한다면, 해당 123을 가진 id 라우트 파라메터가 <code>ArtistComponent</code> 에 전달 될 것이다.</p>
+<h5 id="5-1-ActivatedRoute"><a href="#5-1-ActivatedRoute" class="headerlink" title="5-1. ActivatedRoute"></a>5-1. ActivatedRoute</h5><p>라우트 파라메터를 사용하려면, 먼저 <code>ActivatedRoute</code> 를 가져와야 한다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; ActivatedRoute &#125; from <span class="string">'@angular/router'</span>;</div></pre></td></tr></table></figure>
+<p>다음으로 <code>ActivatedRoute</code> 를 컴포넌트 생성자로 주입 받는다.</p>
+<p>예를들어 다음을 지정하는 <code>Routes</code> 가 있다고 하자.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">	&#123; path: <span class="string">'articles/:id'</span>, component: ArticlesComponent &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
+<p>그런다음 <code>ArticleComponent</code> 를 작성할 때, <code>ActivatedRoute</code> 를 생성자의 파라메터 하나로 추가한다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> ArticleComponent &#123;</div><div class="line">	id: <span class="built_in">string</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> route: ActivatedRoute</span>) &#123;</div><div class="line">    	route.params.subscribe(params =&gt; &#123; <span class="keyword">this</span>.id = params[<span class="string">'id'</span>]; &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>route.params</code> 는 <em>Observable</em> 인 것을 알아야 한다. params 값을 <code>.subscribe</code> 를 사용하여 추출 할 수 있다. </p>
+<p>이 경우, 우리는 <code>params[&#39;id&#39;]</code> 의 값을 컴포넌트의 id 변수에 할당한다. </p>
+<p>이제 <code>/articles/230</code> 을 방문하면 컴포넌트의 id 변수에 230 이 할당된다.</p>
+<p>그 외 <code>route.queryParams</code>, <code>route.data</code>, <code>route.url</code> 등의 Observable 프로퍼티도 존재 하니 공식 문서를 참조하길 바란다.</p>
+<h4 id="6-Route-guards"><a href="#6-Route-guards" class="headerlink" title="6. Route guards"></a>6. Route guards</h4><p>유저가 항상 제공하는 라우팅을 방문 할 수 있는 것은 아니다. </p>
+<p>만약 사용자가 어떠한 컴포넌트에 접근할 권한이 없다면 로그인(인증) 을 해야한다.</p>
+<p>만약 컴포넌트를 표현 하기 전에 일부 데이터를 가져와야 할 경우도 있다.</p>
+<p>혹은 변경 중인 작업들을 저장하지 않고 페이지를 나갈 때도 없어져도 괜찮은지 물을 수도 잇다.</p>
+<p>이러한 시나리오를 처리하기 위해 라우팅 설정에 <code>Route Guards</code> 를 추가 할 수 있다.</p>
+<p>이런 가드(Guard) 는 boolean 응답으로 동기적으로 반환이 가능하다.  그러나 많은 경우 안에서 동기적으로 대답을 낼 수가 없다. 관리자는 사용자에게 질문하거나 서버 변경사항을 저장하거나 새로운 데이터를 가져올 수 있다.</p>
+<p>이것들은 모두 비동기직 작업이다.</p>
+<p>따라서 라우터는 여러 종류의 가드를 지원한다.</p>
+<ol>
+<li><code>CanActivate</code>  는 라우트 탐색을 허용 여부를 결정 할 수 있다.</li>
+<li><code>CanActivateChild()</code> 는 자식 라우트 탐색 허용 여부를 결정 할 수 있다.</li>
+<li><code>CanDeactivate</code> 를 사용하여 현재 라우트에서 다른 라우트로 이동 가능 여부를 결정할 수 있다.</li>
+<li><code>Resolve</code> 는 라우트 활성화 전 데이터를 검색을 수행하고 탐색을 진행 하게 할 수 있다.</li>
+<li><code>CanLoad</code> 는 필요한 모듈을 로드 후 라우트 탐색을 할 수 있도록 비동기적으로 진행하게 할 수 있다.</li>
+</ol>
+<p>가드에 대해서 더 궁금하다면 angular 공식문서를 참조하길 바란다.</p>
+<p>[참조] : ng-book2 : The Complete Book on AngularJS 2,  <a href="https://angular.io" target="_blank" rel="external">https://angular.io</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;5-Route-Parameter&quot;&gt;&lt;a href=&quot;#5-Route-Parameter&quot; class=&quot;headerlink&quot; title=&quot;5. Route Parameter&quot;&gt;&lt;/a&gt;5. Route Parameter&lt;/h4&gt;&lt;p&gt;특정 리소스에 
+    
+    </summary>
+    
+      <category term="angular" scheme="https://doyeonOh.github.io/categories/angular/"/>
+    
+    
+      <category term="angular2" scheme="https://doyeonOh.github.io/tags/angular2/"/>
+    
+      <category term="routing" scheme="https://doyeonOh.github.io/tags/routing/"/>
+    
+      <category term="angular" scheme="https://doyeonOh.github.io/tags/angular/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Angular2 Routing (1)</title>
     <link href="https://doyeonOh.github.io/2016/12/10/Angular2-Routing/"/>
     <id>https://doyeonOh.github.io/2016/12/10/Angular2-Routing/</id>
     <published>2016-12-10T06:00:00.000Z</published>
-    <updated>2017-03-13T02:45:05.934Z</updated>
+    <updated>2017-03-14T11:02:29.644Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Angular2-Routing"><a href="#Angular2-Routing" class="headerlink" title="Angular2 Routing"></a>Angular2 Routing</h1><h4 id="1-Routing"><a href="#1-Routing" class="headerlink" title="1. Routing ?"></a>1. Routing ?</h4><p>일단 라우팅에 대해서 알아보자.</p>
+    <content type="html"><![CDATA[<p>제가 알고 있거나 공부하고 있는 주제에 대하여 포스팅 할 계획을 갖고 있습니다. </p>
+<p>글 쓰는 데에는 재주가 없지만 지속적으로 업데이트 할 예정입니다.</p>
+<p>부족한 점이 있다면 댓글을 남겨주세요.</p>
+<h1 id="Angular2-Routing"><a href="#Angular2-Routing" class="headerlink" title="Angular2 Routing"></a>Angular2 Routing</h1><h4 id="1-Routing"><a href="#1-Routing" class="headerlink" title="1. Routing ?"></a>1. Routing ?</h4><p>일단 라우팅에 대해서 알아보자.</p>
 <p>일반적으로 웹 개발에서, 라우팅은 어플리케이션의 서로 다른 영역들을 구분하는 것을 의미한다.</p>
 <p>모두 알다시피 / 경로로 방문하면 어플리케이션의 홈 라우트를 방문하길 원할 것이고, /about 페이지로 방문하면 about page 로 렌더링하기 원할 것이다.</p>
-<p>그렇다면 왜 라우팅을 해야하는지 알아보자면 </p>
+<p>즉, 라우팅을 하는 이유를 추려보자면</p>
 <ul>
 <li>app 안에서 서로 다른 영역을 구분 할 수 있다.</li>
 <li>app 안에서 상태를 유지한다.</li>
@@ -40,21 +110,10 @@
 </ul>
 <p>위의 설명만 들으면 뭔소린지 모를 것이다. 다음을 계속 보자.</p>
 <p>그 전에 일단 Angular2 의 router 사용하려면 <code>@angular/router</code> 패키지로부터 다음과 같이 import 해야 한다.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span>
-    RouterModule<span class="token punctuation">,</span>
-    Routes
-<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/router'</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h5 id="2-1-Routes"><a href="#2-1-Routes" class="headerlink" title="2-1. Routes"></a>2-1. Routes</h5><p>어플리케이션의 라우트를 정의하려면 이놈이 필요하다. 이놈 즉, <code>Routes</code> 설정을 생성하고 우리 어플리케이션에 적용하기 위해 <code>router</code> 를 사용하는데 필요한 의존들과 함께 <code>RouterModule.forRoot(routes)</code> 사용해야 한다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">	RouterModule,</div><div class="line">    Routes</div><div class="line">&#125; from <span class="string">'@angular/router'</span>;</div></pre></td></tr></table></figure>
+<h5 id="2-1-Routes"><a href="#2-1-Routes" class="headerlink" title="2-1. Routes"></a>2-1. Routes</h5><p>어플리케이션의 라우트를 정의하려면 이 놈이 필요하다. 즉, 라우터를 사용하는데 필요한 의존들을 설정한 <code>Routes</code>  를 생성하고 적용하기 위해  <code>RouterModule.forRoot(routes)</code>  처럼 세팅해야 한다.</p>
 <p>뭔 소린지 모르니 다음 코드를 보자.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token keyword">const</span> routes<span class="token punctuation">:</span> Routes <span class="token operator">=</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span> redirectTo<span class="token punctuation">:</span> <span class="token string">'home'</span><span class="token punctuation">,</span> pathMatch<span class="token punctuation">:</span> <span class="token string">'full'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'home'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> HomeComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'about'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> AboutComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'contact'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> ContactComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'contactus'</span><span class="token punctuation">,</span> redirectTo<span class="token punctuation">:</span> <span class="token string">'contact'</span> <span class="token punctuation">}</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">    &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'home'</span>, pathMatch: <span class="string">'full'</span> &#125;,</div><div class="line">    &#123; path: <span class="string">'home'</span>, component: HomeComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'about'</span>, component: AboutComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'contact'</span>, component: ContactComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'contactus'</span>, redirectTo: <span class="string">'contact'</span> &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
 <p><code>routes</code> 에 대한 설명을 하자면</p>
 <ul>
 <li><code>path</code> 는 이 라우트가 처리할 URL 을 지정한다.</li>
@@ -62,151 +121,42 @@
 <li><code>redirectTo</code> 는 필수는 아니지만 어플리케이션 내부에 존재하는 라우트 경로로 리다이렉트 할 때 사용된다.</li>
 <li>그 외에도 등등 이 있으니 공식 문서 참고.</li>
 </ul>
-<p>자 이 routes 를 만들었으니 어플리케이션에 적용을 해야한다.</p>
+<p>자 이 routes 를 만들었으니 어플리케이션에 적용을 해보자.</p>
 <p><code>Routes</code> 를 적용하자</p>
 <ol>
 <li><code>RouterModule</code> 을 import 한다.</li>
 <li><code>NgModule</code> 의 imports 안에 <code>RouterModule.forRoot(routes)</code> 를 사용하여 routes 를 적용한다.</li>
 </ol>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token operator">...</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span>
-    RouterModule<span class="token punctuation">,</span>
-    Routes
-<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/router'</span><span class="token punctuation">;</span>
-<span class="token operator">...</span>
-
-<span class="token keyword">const</span> routes<span class="token punctuation">:</span> Routes <span class="token operator">=</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span> redirectTo<span class="token punctuation">:</span> <span class="token string">'home'</span><span class="token punctuation">,</span> pathMatch<span class="token punctuation">:</span> <span class="token string">'full'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'home'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> HomeComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'about'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> AboutComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'contact'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> ContactComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'contactus'</span><span class="token punctuation">,</span> redirectTo<span class="token punctuation">:</span> <span class="token string">'contact'</span> <span class="token punctuation">}</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  declarations<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    RoutesDemoApp<span class="token punctuation">,</span>
-    HomeComponent<span class="token punctuation">,</span>
-    AboutComponent<span class="token punctuation">,</span>
-    ContactComponent
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    BrowserModule<span class="token punctuation">,</span>
-    RouterModule<span class="token punctuation">.</span><span class="token function">forRoot</span><span class="token punctuation">(</span>routes<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// &lt;-- 적용</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  bootstrap<span class="token punctuation">:</span> <span class="token punctuation">[</span> AppModule <span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">class</span> <span class="token class-name">RoutesAppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-
-<span class="token function">platformBrowserDynamic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bootstrapModule</span><span class="token punctuation">(</span>RoutesAppModule<span class="token punctuation">)</span>
-<span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">	RouterModule,</div><div class="line">    Routes</div><div class="line">&#125; from <span class="string">'@angular/router'</span>;</div><div class="line">...</div><div class="line"></div><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">    &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'home'</span>, pathMatch: <span class="string">'full'</span> &#125;,</div><div class="line">    &#123; path: <span class="string">'home'</span>, component: HomeComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'about'</span>, component: AboutComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'contact'</span>, component: ContactComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'contactus'</span>, redirectTo: <span class="string">'contact'</span> &#125;</div><div class="line">];</div><div class="line"></div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  declarations: [</div><div class="line">    RoutesDemoApp,</div><div class="line">    HomeComponent,</div><div class="line">    AboutComponent,</div><div class="line">    ContactComponent</div><div class="line">  ],</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    RouterModule.forRoot(routes) <span class="comment">// &lt;-- 적용</span></div><div class="line">  ],</div><div class="line">  bootstrap: [ AppModule ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">class</span> RoutesAppModule &#123;&#125;</div><div class="line"></div><div class="line">platformBrowserDynamic().bootstrapModule(RoutesAppModule)</div><div class="line">.catch((err: <span class="built_in">any</span>) =&gt; <span class="built_in">console</span>.error(err));</div></pre></td></tr></table></figure>
 <h5 id="2-2-RouterOutlet"><a href="#2-2-RouterOutlet" class="headerlink" title="2-2. RouterOutlet"></a>2-2. RouterOutlet</h5><p>라우트를 변경할 때 외부 layout 은 냅두고 내부만 바꾸고 싶을 때가 있다. 그럴 때 사용하는 것이 RouterOutlet 이다.</p>
-<p>이미 <code>NgModule</code> 에서 <code>RouterModule</code> 을 import 했기 때문에 해당 모듈에 Declarations 된 모든 component 들은 해당 모듈에 포함된 RouterOutlet 을 사용 할 수 있다. </p>
-<p>사용 할 때는 해당 component 에 연결된 template 에서 <code>router-outlet</code> 디렉티브를 사용한다. </p>
-<pre class="line-numbers language-typescript"><code class="language-typescript">@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  selector<span class="token punctuation">:</span> <span class="token string">'router-app'</span><span class="token punctuation">,</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;div>
-      &lt;nav>
-        &lt;a>Navigation:&lt;/a>
-          &lt;ul>
-            &lt;li>&lt;a [routerLink]="['home']">Home&lt;/a>&lt;/li>
-            &lt;li>&lt;a [routerLink]="['about']">About&lt;/a>&lt;/li>
-            &lt;li>&lt;a [routerLink]="['contact']">Contact     us&lt;/a>&lt;/li>
-         &lt;/ul>
-      &lt;/nav>
-      &lt;router-outlet>&lt;/router-outlet>  &lt;-- 이것이 router-outlet!!!
-    &lt;/div>
-`</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">class</span> <span class="token class-name">RoutesApp</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>이미 <code>NgModule</code> 에서 <code>RouterModule</code> 을 import 했기 때문에 해당 모듈에 선언된(declearations) 모든 컴포넌트들은 해당 모듈에 포함된 <code>RouterOutlet</code> 을 사용 할 수 있다. </p>
+<p>사용 할 때는 해당 컴포넌트에 연결된 template 에서 <code>router-outlet</code> 디렉티브를 사용한다. </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'router-app'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;nav&gt;</div><div class="line">        &lt;a&gt;Navigation:&lt;/a&gt;</div><div class="line">          &lt;ul&gt;</div><div class="line">            &lt;li&gt;&lt;a [routerLink]="['home']"&gt;Home&lt;/a&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;a [routerLink]="['about']"&gt;About&lt;/a&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;a [routerLink]="['contact']"&gt;Contact     us&lt;/a&gt;&lt;/li&gt;</div><div class="line">         &lt;/ul&gt;</div><div class="line">      &lt;/nav&gt;</div><div class="line">      &lt;router-outlet&gt;&lt;/router-outlet&gt;  &lt;-- 이것이 router-outlet!!!</div><div class="line">    &lt;/div&gt;</div><div class="line">`</div><div class="line">&#125;)</div><div class="line"><span class="keyword">class</span> RoutesApp &#123; &#125;</div></pre></td></tr></table></figure>
 <p>routerLink 는 바로 다음에 설명하겠지만, </p>
 <p>위의 코드에서 home, about, contact 앵커 태그를 클릭하면 하단 <code>router-outlet</code> 에 해당 라우트가 연결된 component 로 전환 될 것이다.</p>
 <h5 id="2-3-RouterLink"><a href="#2-3-RouterLink" class="headerlink" title="2-3. RouterLink"></a>2-3. RouterLink</h5><p><code>RouterLink</code> 는 <code>[routerLink]</code> 를 사용한다.(위에 코드에 보이시죠?)</p>
 <p>근데 왜 이걸 써야 할까? 알다시피 다음과 같이 직접적으로 HTML에 링크를 시도할 수 있지 않은가?</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token string">"/#/home"</span><span class="token operator">></span>Home<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=<span class="string">"/#/home"</span>&gt;Home&lt;<span class="regexp">/a&gt;</span></div></pre></td></tr></table></figure>
 <p>이렇게 하면 큰일 난다. 아니 큰일은 나지 않지만, 링크를 클릭하면 페이지가 새로고침된다. </p>
 <p>우린 SPA 프로그래밍을 하는데 페이지가 새로고침이 되면 SPA 프로그래밍이 아니다.(Single Page Application)</p>
 <p>Angular2 에서 이 문제를 해결한 것이 <code>RouterLink</code> 이다. 이것을 사용하면 페이지 새로고침 없이 해당 라우트로 링크 할 수 있다. </p>
 <p>위에도 나와 있지만 이 directive 는 다음과 같이 특별한 문법으로 link 를 작성 할 수 있다.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"> <span class="token operator">&lt;</span>a<span class="token operator">></span>Navigation<span class="token punctuation">:</span><span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
-  <span class="token operator">&lt;</span>ul<span class="token operator">></span>
-    <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token operator">&lt;</span>a <span class="token punctuation">[</span>routerLink<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"['home']"</span><span class="token operator">></span>Home<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
-    <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token operator">&lt;</span>a <span class="token punctuation">[</span>routerLink<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"['about']"</span><span class="token operator">></span>About<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
-    <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token operator">&lt;</span>a <span class="token punctuation">[</span>routerLink<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"['contact']"</span><span class="token operator">></span>Contact us<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;a&gt;Navigation:&lt;/a&gt;</div><div class="line"> &lt;ul&gt;</div><div class="line">   &lt;li&gt;&lt;a [routerLink]="['home']"&gt;Home&lt;/a&gt;&lt;/li&gt;</div><div class="line">   &lt;li&gt;&lt;a [routerLink]="['about']"&gt;About&lt;/a&gt;&lt;/li&gt;</div><div class="line">   &lt;li&gt;&lt;a [routerLink]="['contact']"&gt;Contact us&lt;/a&gt;&lt;/li&gt;</div><div class="line"> &lt;/ul&gt;</div></pre></td></tr></table></figure>
 <p>왼쪽 편에 <code>[routerLink]</code> 는 현재 엘리먼트에 directive 를 적용한다. (여기서는 a 태그)</p>
 <p>그리고 오른편에는 route 경로를 가지고 있는 배열이 있다. 생각하는 바와 같이 클릭하면 해당 home, about, contact 라우트로 이동 한다.</p>
 <p>배열에 문자열만 턱하니 있으니 뭔가 이상해 보일 수도 있겠지만, 링크 할 때 제공 할 수 있는 것들이 더 많기 때문에 배열로 이루어져 있는 것이다. 더 제공 할 수 있는 것에 대해서는 공식 문서를 참조하자.</p>
 <h4 id="3-lt-base-href-quot-quot-gt-와-APP-BASE-HREF"><a href="#3-lt-base-href-quot-quot-gt-와-APP-BASE-HREF" class="headerlink" title="3. &lt;base href=&quot;/&quot;&gt; 와 APP_BASE_HREF"></a>3. <code>&lt;base href=&quot;/&quot;&gt;</code> 와 <code>APP_BASE_HREF</code></h4><h5 id="3-1-lt-base-href-quot-quot-gt"><a href="#3-1-lt-base-href-quot-quot-gt" class="headerlink" title="3-1. &lt;base href=&quot;/&quot;&gt;"></a>3-1. <code>&lt;base href=&quot;/&quot;&gt;</code></h5><p>다음 코드 <code>index.html</code> 파일을 보자.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token operator">&lt;</span><span class="token operator">!</span>doctype html<span class="token operator">></span>
-<span class="token operator">&lt;</span>html<span class="token operator">></span>
-  <span class="token operator">&lt;</span>head<span class="token operator">></span>
-    <span class="token operator">&lt;</span>base href<span class="token operator">=</span><span class="token string">"/"</span><span class="token operator">></span>  <span class="token operator">&lt;</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span> 여기<span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span>
-    <span class="token operator">&lt;</span>title<span class="token operator">></span>ng<span class="token operator">-</span>book <span class="token number">2</span><span class="token punctuation">:</span> Angular <span class="token number">2</span> Router<span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">></span>
-    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> css <span class="token keyword">in</span> o<span class="token punctuation">.</span>htmlWebpackPlugin<span class="token punctuation">.</span>files<span class="token punctuation">.</span>css<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">%</span><span class="token punctuation">}</span>
-      <span class="token operator">&lt;</span>link href<span class="token operator">=</span><span class="token string">"{%=o.htmlWebpackPlugin.files.css[css] %}"</span> rel<span class="token operator">=</span><span class="token string">"stylesheet"</span><span class="token operator">></span>
-    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token punctuation">}</span> <span class="token operator">%</span><span class="token punctuation">}</span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">></span>
-  <span class="token operator">&lt;</span>body<span class="token operator">></span>
-    <span class="token operator">&lt;</span>router<span class="token operator">-</span>app<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>router<span class="token operator">-</span>app<span class="token operator">></span>
-    <span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"/core.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
-    <span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"/vendor.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
-    <span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"/bundle.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!doctype html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;base href="/"&gt;  &lt;---------- 여기!!!!!!</div><div class="line">    &lt;title&gt;ng-book 2: Angular 2 Router&lt;/title&gt;</div><div class="line">    &#123;% for (var css in o.htmlWebpackPlugin.files.css) &#123; %&#125;</div><div class="line">      &lt;link href="&#123;%=o.htmlWebpackPlugin.files.css[css] %&#125;" rel="stylesheet"&gt;</div><div class="line">    &#123;% &#125; %&#125;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;router-app&gt;&lt;/router-app&gt;</div><div class="line">    &lt;script src="/core.js"&gt;&lt;/script&gt;</div><div class="line">    &lt;script src="/vendor.js"&gt;&lt;/script&gt;</div><div class="line">    &lt;script src="/bundle.js"&gt;&lt;/script&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
 <p>위의 <code>&lt;base href=&quot;/&quot;&gt;</code> 만 빼면 그냥 알 수 있는 코드이다.</p>
 <p>이 태그는 전통적으로 브라우저에게 어딜 봐야 하는지 알려주기 위해 사용된다.</p>
 <p>예를 들어, <code>/hello</code> 라는 라우트 경로를 가지고 있고, <code>base</code> 엘리먼트에 <code>href=&quot;app&quot;</code> 이라고 선언되었다면 어플리케이션은 해당 경로를 <code>/app/hello</code> 로  가리킬 것이다.</p>
 <p>다음 코드는 그 예제이다.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token keyword">const</span> routes<span class="token punctuation">:</span> Routes <span class="token operator">=</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'app'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> AppComponent <span class="token punctuation">}</span>
-  <span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-
-@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  declarations<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    AppComponent
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    RouterModule<span class="token punctuation">.</span><span class="token function">forRoot</span><span class="token punctuation">(</span>routes<span class="token punctuation">)</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token operator">...</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token operator">&lt;</span><span class="token operator">!</span>doctype html<span class="token operator">></span>
-<span class="token operator">&lt;</span>html<span class="token operator">></span>
-  <span class="token operator">&lt;</span>head<span class="token operator">></span>
-  <span class="token operator">&lt;</span>base href<span class="token operator">=</span><span class="token string">"/app"</span><span class="token operator">></span>
-    <span class="token operator">...</span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">></span>
-  <span class="token operator">&lt;</span>body<span class="token operator">></span>
-    <span class="token operator">...</span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">    &#123; path: <span class="string">'app'</span>, component: AppComponent &#125;</div><div class="line">  ];</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  declarations: [</div><div class="line">    AppComponent</div><div class="line">  ],</div><div class="line">  imports: [</div><div class="line">    RouterModule.forRoot(routes)</div><div class="line">  ],</div><div class="line">  ...</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!doctype html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">  &lt;base href="/app"&gt;</div><div class="line">    ...</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    ...</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
 <p>base 태그가 /app 로 되있기 때문에 routes 경로도 app 으로 지정해주어야 한다.</p>
 <h5 id="3-2-APP-BASE-HREF"><a href="#3-2-APP-BASE-HREF" class="headerlink" title="3-2. APP_BASE_HREF"></a>3-2. <code>APP_BASE_HREF</code></h5><p><code>&lt;base href=&quot;/&quot;&gt;</code> 를 코드 안에도 넣을 수 있다. </p>
 <p>그것은 바로 <code>NgModule</code> 의 <code>APP_BASE_HREF</code> 를 제공하면 된다!</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript">@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  declarations<span class="token punctuation">:</span> <span class="token punctuation">[</span> RoutesDemoApp <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    BrowserModule<span class="token punctuation">,</span>
-    RouterModule<span class="token punctuation">.</span><span class="token function">forRoot</span><span class="token punctuation">(</span>routes<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// &lt;-- routes</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  bootstrap<span class="token punctuation">:</span> <span class="token punctuation">[</span> RoutesDemoApp <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span> provide<span class="token punctuation">:</span> LocationStrategy<span class="token punctuation">,</span> useClass<span class="token punctuation">:</span>   HashLocationStrategy <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> provide<span class="token punctuation">:</span> APP_BASE_HREF<span class="token punctuation">,</span> useValue<span class="token punctuation">:</span> <span class="token string">'/'</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// &lt;--- 여기</span>
-  <span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  declarations: [ RoutesDemoApp ],</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    RouterModule.forRoot(routes) <span class="comment">// &lt;-- routes</span></div><div class="line">  ],</div><div class="line">  bootstrap: [ RoutesDemoApp ],</div><div class="line">  providers: [</div><div class="line">    &#123; provide: LocationStrategy, useClass:   HashLocationStrategy &#125;,</div><div class="line">    &#123; provide: APP_BASE_HREF, useValue: <span class="string">'/'</span> &#125; <span class="comment">// &lt;--- 여기</span></div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>provider 에 있는  <code>{ proivde: APP_BASE_HREF, useValue: &#39;/&#39; }</code> 는 방금 말했듯이 HTML 헤더에 있던 <code>&lt;base href=&quot;/&quot;&gt;</code> 와 동일 하다.</p>
 <p>Angular2 router 를 사용하려면 둘 중에 하나를 명시해주어야 한다.</p>
 <h4 id="4-Routing-Strategy"><a href="#4-Routing-Strategy" class="headerlink" title="4. Routing Strategy"></a>4. Routing Strategy</h4><p>Angular2 의 라우팅 전략은 여러 가지가 있다. 그 중에 기본 전략으로 지정 된 것은 <code>PathLocationStrategy</code> 이다. 이것은 HTML5 routing 이라고도 불리는 데, 이 전략을 사용하는 동안 라우트들은 regular path 들을 표현한다. </p>
@@ -216,51 +166,31 @@
 <p>HTML5 Routing 을 사용하는 경우, 보통 경로들과 다르지 않기 때문에 구분을 주고자 한다면 사용하는 것을 추천한다.</p>
 <p>이제 새로운 전략을 한번 사용해보자.</p>
 <p>일단 <code>LocationStrategy</code> 와 <code>HashLocationStrategy</code> 를 import 해야 한다.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> LocationStrategy<span class="token punctuation">,</span> HashLocationStrategy <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common'</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; LocationStrategy, HashLocationStrategy &#125; from <span class="string">'@angular/common'</span>;</div></pre></td></tr></table></figure>
 <p>해당 클래스 들은 <code>@angular/common</code> 패키지에 존재한다.</p>
 <p>이제 이 클래스들을 <code>NgModule</code> 에 작성하자.</p>
-<pre class="line-numbers language-typescript"><code class="language-typescript">    <span class="token operator">...</span>
-    providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span> provide<span class="token punctuation">:</span> LocationStrategy<span class="token punctuation">,</span> useClass<span class="token punctuation">:</span> HashLocationStrategy <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-    <span class="token operator">...</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">providers: [</div><div class="line">   	&#123; provide: LocationStrategy, useClass: HashLocationStrategy &#125;</div><div class="line">   ]</div><div class="line">...</div></pre></td></tr></table></figure>
 <p>이렇게 하면 적용된다. 그외 전략은 공식 문서를 참고하자..</p>
+<p>[참조] : ng-book2 : The Complete Book on AngularJS 2</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Angular2-Routing&quot;&gt;&lt;a href=&quot;#Angular2-Routing&quot; class=&quot;headerlink&quot; title=&quot;Angular2 Routing&quot;&gt;&lt;/a&gt;Angular2 Routing&lt;/h1&gt;&lt;h4 id=&quot;1-Routing
+      &lt;p&gt;제가 알고 있거나 공부하고 있는 주제에 대하여 포스팅 할 계획을 갖고 있습니다. &lt;/p&gt;
+&lt;p&gt;글 쓰는 데에는 재주가 없지만 지속적으로 업데이트 할 예정입니다.&lt;/p&gt;
+&lt;p&gt;부족한 점이 있다면 댓글을 남겨주세요.&lt;/p&gt;
+&lt;h1 id=&quot;Angula
     
     </summary>
     
-      <category term="angular2" scheme="https://doyeonOh.github.io/categories/angular2/"/>
+      <category term="angular" scheme="https://doyeonOh.github.io/categories/angular/"/>
     
     
       <category term="angular2" scheme="https://doyeonOh.github.io/tags/angular2/"/>
     
       <category term="routing" scheme="https://doyeonOh.github.io/tags/routing/"/>
     
-  </entry>
-  
-  <entry>
-    <title>helloworld</title>
-    <link href="https://doyeonOh.github.io/2016/09/12/helloworld/"/>
-    <id>https://doyeonOh.github.io/2016/09/12/helloworld/</id>
-    <published>2016-09-12T03:09:00.000Z</published>
-    <updated>2016-12-15T01:28:56.308Z</updated>
-    
-    <content type="html"><![CDATA[<p>sample test 입니다.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;sample test 입니다.&lt;/p&gt;
-
-    
-    </summary>
-    
+      <category term="angular" scheme="https://doyeonOh.github.io/tags/angular/"/>
     
   </entry>
   

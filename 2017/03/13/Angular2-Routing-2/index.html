@@ -3,23 +3,39 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Doyeon&#39;s Blog</title>
+    <title>Angular2 Routing(2) | Doyeon&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Doyeon&apos;s IT Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Doyeon's Blog">
-<meta property="og:url" content="https://doyeonOh.github.io/index.html">
+    <meta name="description" content="5. Route Parameter특정 리소스에 대해 라우팅 하고 싶을 때가 있다. 예를 들어, 뉴스 기사 사이트에는 많은 기사들이 있는데 각 기사들은 id 를 가지고 있다. 
+id 가 3인 url 을 표현하면 다음과 같다.
+1/articles/3
+그리고 id 가 4인 것은 다음과 같다.
+1/articles/4
+하지만 이렇게 많은 것들을 매번 하나하나 라우팅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular2 Routing(2)">
+<meta property="og:url" content="https://doyeonOh.github.io/2017/03/13/Angular2-Routing-2/index.html">
 <meta property="og:site_name" content="Doyeon's Blog">
-<meta property="og:description" content="Doyeon&apos;s IT Blog">
+<meta property="og:description" content="5. Route Parameter특정 리소스에 대해 라우팅 하고 싶을 때가 있다. 예를 들어, 뉴스 기사 사이트에는 많은 기사들이 있는데 각 기사들은 id 를 가지고 있다. 
+id 가 3인 url 을 표현하면 다음과 같다.
+1/articles/3
+그리고 id 가 4인 것은 다음과 같다.
+1/articles/4
+하지만 이렇게 많은 것들을 매번 하나하나 라우팅">
 <meta property="og:image" content="https://doyeonOh.github.io/css/images/main.jpg">
+<meta property="og:updated_time" content="2017-03-14T10:37:14.448Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Doyeon's Blog">
-<meta name="twitter:description" content="Doyeon&apos;s IT Blog">
+<meta name="twitter:title" content="Angular2 Routing(2)">
+<meta name="twitter:description" content="5. Route Parameter특정 리소스에 대해 라우팅 하고 싶을 때가 있다. 예를 들어, 뉴스 기사 사이트에는 많은 기사들이 있는데 각 기사들은 id 를 가지고 있다. 
+id 가 3인 url 을 표현하면 다음과 같다.
+1/articles/3
+그리고 id 가 4인 것은 다음과 같다.
+1/articles/4
+하지만 이렇게 많은 것들을 매번 하나하나 라우팅">
 <meta name="twitter:image" content="https://doyeonOh.github.io/css/images/main.jpg">
 <link rel="publisher" href="odyody12@gmail.com">
 <meta property="fb:admins" content="100000731937646">
     
-    <link rel="canonical" href="https://doyeonOh.github.io/"/>
+    <link rel="canonical" href="https://doyeonOh.github.io/2017/03/13/Angular2-Routing-2/"/>
     
 
     
@@ -144,8 +160,7 @@ ga('send', 'pageview');
             
                 
             
-            <section id="main">
-    <article id="post-Angular2-Routing-2" class="article article-type-post" itemscope
+            <section id="main"><article id="post-Angular2-Routing-2" class="article article-type-post" itemscope
          itemprop="blogPost">
     <div class="article-inner">
         
@@ -154,8 +169,8 @@ ga('send', 'pageview');
         <header class="article-header">
             
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/13/Angular2-Routing-2/">Angular2 Routing(2)</a>
+        <h1 class="article-title" itemprop="name">
+            Angular2 Routing(2)
         </h1>
     
 
@@ -186,20 +201,49 @@ ga('send', 'pageview');
         
         <div class="article-entry" itemprop="articleBody">
             
-            <p>
-                5. Route Parameter특정 리소스에 대해 라우팅 하고 싶을 때가 있다. 예를 들어, 뉴스 기사 사이트에는 많은 기사들이 있는데 각 기사들은 id 를 가지고 있다. 
-id 가 3인 url 을 표현하면 다음과 같다.
-1/articles/3
-그리고 id 가 4인 것은 다음과 같다.
-1/articles/4
-하지만 이렇게 많은 것들을 매번 하나하나 라우팅
-                
-                ...
-                
-            </p>
-            <p class="article-more-link">
-                <a href="/2017/03/13/Angular2-Routing-2/">Read More</a>
-            </p>
+            
+            <h4 id="5-Route-Parameter"><a href="#5-Route-Parameter" class="headerlink" title="5. Route Parameter"></a>5. Route Parameter</h4><p>특정 리소스에 대해 라우팅 하고 싶을 때가 있다. 예를 들어, 뉴스 기사 사이트에는 많은 기사들이 있는데 각 기사들은 id 를 가지고 있다. </p>
+<p>id 가 3인 url 을 표현하면 다음과 같다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/articles/<span class="number">3</span></div></pre></td></tr></table></figure>
+<p>그리고 id 가 4인 것은 다음과 같다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/articles/<span class="number">4</span></div></pre></td></tr></table></figure>
+<p>하지만 이렇게 많은 것들을 매번 하나하나 라우팅 할 순 없다. 이것을 변수를 사용하여 이용 할 수가 있다.</p>
+<p>즉 이것이 라우트 파라메터인데 라우트가 파라메터를 가지게 하려면 다음과 같이 앞에 콜론을 붙여주면 된다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/routes/:param</div></pre></td></tr></table></figure>
+<p>위의 뉴스 기사를 라우트 파라메터로 표현하면 다음과 같이 된다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/articles/:id</div></pre></td></tr></table></figure>
+<p><code>Routes</code> 설정에 추가해보면 다음과 같다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">    &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'search'</span>, pathMatch: <span class="string">'full'</span> &#125;,</div><div class="line">    &#123; path: <span class="string">'search'</span>, component: SearchComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'artists/:id'</span>, component: ArtistComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'tracks/:id'</span>, component: TrackComponent &#125;,</div><div class="line">    &#123; path: <span class="string">'albums/:id'</span>, component: AlbumComponent &#125;,</div><div class="line">];</div></pre></td></tr></table></figure>
+<p><code>artists/123</code> 으로 방문 한다면, 해당 123을 가진 id 라우트 파라메터가 <code>ArtistComponent</code> 에 전달 될 것이다.</p>
+<h5 id="5-1-ActivatedRoute"><a href="#5-1-ActivatedRoute" class="headerlink" title="5-1. ActivatedRoute"></a>5-1. ActivatedRoute</h5><p>라우트 파라메터를 사용하려면, 먼저 <code>ActivatedRoute</code> 를 가져와야 한다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; ActivatedRoute &#125; from <span class="string">'@angular/router'</span>;</div></pre></td></tr></table></figure>
+<p>다음으로 <code>ActivatedRoute</code> 를 컴포넌트 생성자로 주입 받는다.</p>
+<p>예를들어 다음을 지정하는 <code>Routes</code> 가 있다고 하자.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">	&#123; path: <span class="string">'articles/:id'</span>, component: ArticlesComponent &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
+<p>그런다음 <code>ArticleComponent</code> 를 작성할 때, <code>ActivatedRoute</code> 를 생성자의 파라메터 하나로 추가한다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> ArticleComponent &#123;</div><div class="line">	id: <span class="built_in">string</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> route: ActivatedRoute</span>) &#123;</div><div class="line">    	route.params.subscribe(params =&gt; &#123; <span class="keyword">this</span>.id = params[<span class="string">'id'</span>]; &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>route.params</code> 는 <em>Observable</em> 인 것을 알아야 한다. params 값을 <code>.subscribe</code> 를 사용하여 추출 할 수 있다. </p>
+<p>이 경우, 우리는 <code>params[&#39;id&#39;]</code> 의 값을 컴포넌트의 id 변수에 할당한다. </p>
+<p>이제 <code>/articles/230</code> 을 방문하면 컴포넌트의 id 변수에 230 이 할당된다.</p>
+<p>그 외 <code>route.queryParams</code>, <code>route.data</code>, <code>route.url</code> 등의 Observable 프로퍼티도 존재 하니 공식 문서를 참조하길 바란다.</p>
+<h4 id="6-Route-guards"><a href="#6-Route-guards" class="headerlink" title="6. Route guards"></a>6. Route guards</h4><p>유저가 항상 제공하는 라우팅을 방문 할 수 있는 것은 아니다. </p>
+<p>만약 사용자가 어떠한 컴포넌트에 접근할 권한이 없다면 로그인(인증) 을 해야한다.</p>
+<p>만약 컴포넌트를 표현 하기 전에 일부 데이터를 가져와야 할 경우도 있다.</p>
+<p>혹은 변경 중인 작업들을 저장하지 않고 페이지를 나갈 때도 없어져도 괜찮은지 물을 수도 잇다.</p>
+<p>이러한 시나리오를 처리하기 위해 라우팅 설정에 <code>Route Guards</code> 를 추가 할 수 있다.</p>
+<p>이런 가드(Guard) 는 boolean 응답으로 동기적으로 반환이 가능하다.  그러나 많은 경우 안에서 동기적으로 대답을 낼 수가 없다. 관리자는 사용자에게 질문하거나 서버 변경사항을 저장하거나 새로운 데이터를 가져올 수 있다.</p>
+<p>이것들은 모두 비동기직 작업이다.</p>
+<p>따라서 라우터는 여러 종류의 가드를 지원한다.</p>
+<ol>
+<li><code>CanActivate</code>  는 라우트 탐색을 허용 여부를 결정 할 수 있다.</li>
+<li><code>CanActivateChild()</code> 는 자식 라우트 탐색 허용 여부를 결정 할 수 있다.</li>
+<li><code>CanDeactivate</code> 를 사용하여 현재 라우트에서 다른 라우트로 이동 가능 여부를 결정할 수 있다.</li>
+<li><code>Resolve</code> 는 라우트 활성화 전 데이터를 검색을 수행하고 탐색을 진행 하게 할 수 있다.</li>
+<li><code>CanLoad</code> 는 필요한 모듈을 로드 후 라우트 탐색을 할 수 있도록 비동기적으로 진행하게 할 수 있다.</li>
+</ol>
+<p>가드에 대해서 더 궁금하다면 angular 공식문서를 참조하길 바란다.</p>
+<p>[참조] : ng-book2 : The Complete Book on AngularJS 2,  <a href="https://angular.io" target="_blank" rel="external">https://angular.io</a></p>
+
             
         </div>
         <footer class="article-footer">
@@ -283,149 +327,33 @@ id 가 3인 url 을 표현하면 다음과 같다.
         </footer>
     </div>
     
+    
+<nav id="article-nav">
+    
+    
+        <a href="/2016/12/10/Angular2-Routing/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Angular2 Routing (1)</div>
+        </a>
+    
+</nav>
+
+
+    
 </article>
 
 
 
-    <article id="post-Angular2-Routing" class="article article-type-post" itemscope
-         itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-        <header class="article-header">
-            
+    <section id="comments">
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/10/Angular2-Routing/">Angular2 Routing (1)</a>
-        </h1>
-    
-
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/12/10/Angular2-Routing/">
-            <time datetime="2016-12-10T06:00:00.000Z" itemprop="datePublished">2016-12-10</time>
-        </a>
-    </div>
-
-
-                
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/angular/">angular</a>
-    </div>
-
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/angular/">angular</a>, <a class="tag-link" href="/tags/angular2/">angular2</a>, <a class="tag-link" href="/tags/routing/">routing</a>
-    </div>
-
-            </div>
-        </header>
         
-        <div class="article-entry" itemprop="articleBody">
-            
-            <p>
-                제가 알고 있거나 공부하고 있는 주제에 대하여 포스팅 할 계획을 갖고 있습니다. 
-글 쓰는 데에는 재주가 없지만 지속적으로 업데이트 할 예정입니다.
-부족한 점이 있다면 댓글을 남겨주세요.
-Angular2 Routing1. Routing ?일단 라우팅에 대해서 알아보자.
-일반적으로 웹 개발에서, 라우팅은 어플리케이션의 서로 다른 영역들을 구분하는 것을 의미한
-                
-                ...
-                
-            </p>
-            <p class="article-more-link">
-                <a href="/2016/12/10/Angular2-Routing/">Read More</a>
-            </p>
-            
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
+<div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
 </div>
 
-    <a data-url="https://doyeonOh.github.io/2016/12/10/Angular2-Routing/" data-id="cj07ibspo000218c0ix3nkten" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
     
-        <a href="https://doyeonOh.github.io/2016/12/10/Angular2-Routing/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://doyeonOh.github.io/2016/12/10/Angular2-Routing/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
+    </section>
 
 </section>
             
@@ -627,11 +555,13 @@ Angular2 Routing1. Routing ?일단 라우팅에 대해서 알아보자.
     var disqus_shortname = 'doyeonoh';
     
     
+    var disqus_url = 'https://doyeonOh.github.io/2017/03/13/Angular2-Routing-2/';
+    
     (function () {
         var dsq = document.createElement('script');
         dsq.type = 'text/javascript';
         dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
